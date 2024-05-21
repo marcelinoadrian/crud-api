@@ -60,6 +60,21 @@ app.put('/api/products/:id', async (req,res) => {
     }
 })
 
+app.delete('/api/products/:id', async (req,res) => {
+    try {
+        const {id} = req.params
+       const product = await Product.findByIdAndDelete(id, req.body)
+          if(!product)
+            {
+                return res.status(404).json({message: "Product not found"})
+            }
+        res.status(200).json({message: "Product deleted successfully"})
+    } catch (error) {
+        res.status(500).json({message: error.message})
+        
+    }
+})
+
 app.listen(5000, () => {
     console.log('Server is running on port 5000.')
 })
